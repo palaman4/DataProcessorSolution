@@ -1,0 +1,33 @@
+﻿@model DataFieldsViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Please follow the steps below</a>.</p>
+</div>
+
+@using (Html.BeginForm())
+{
+
+
+<tr>
+    <td>
+        @Html.LabelFor(model => model.DataFields)
+        @Html.TextBoxFor(model => model.DataFields)
+    </td>
+    <td>
+        @Html.LabelFor(model => model.CustomField)
+        @Html.TextBoxFor(model => model.CustomField)
+    </td>
+    <td>
+        @Html.LabelFor(model => model.DataMapping)
+        @Html.TextBoxFor(model => model.DataMapping)
+    </td>
+
+</tr>
+   
+
+    <br/>
+    <input type="submit" value="Submit" />
+}
