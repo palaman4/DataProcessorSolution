@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -61,8 +61,10 @@ namespace WebApplication1.Controllers
             {
                 CustomDataService dataService = new CustomDataService(_config);
                 dataService.customSourceField = customField;
+                dataService.ExtractionMethod = ExtractFromCustomField;
 
-                
+                   
+
                 if (dataService.ValidateDataIntoStaging(dataFields))
                 {
                     if (dataService.ApplyMappingsToStaging(dataMappings))
@@ -72,6 +74,10 @@ namespace WebApplication1.Controllers
                 }
             }
             return View();
+        }
+        public string ExtractFromCustomField(string var)
+        {
+            return var.Remove(0,3);
         }
 
     }
