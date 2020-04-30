@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,54 +15,25 @@ namespace WebApplication1.AppData
         public int customFieldIndex =-1;
         public override Boolean ValidateDataIntoStaging(string headers)
         {
-
-            this.stagingTable = GetStagingTable(headers);
-
-            var inputData = getSampleData();
-
-            if (!string.IsNullOrEmpty(customSourceField))
+            if (base.ValidateDataIntoStaging(headers))
             {
-                var te = headers.Split(",").ToArray();
-              
-                customFieldIndex = Array.IndexOf(te,customSourceField);
-            }
-            DataRow dr;
-            try
-            {
-                for (int i = 0; i < inputData.Count; i++)
+                try
                 {
-                    if (inputData[i].Count() > stagingTable.Columns.Count)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        dr = stagingTable.NewRow();
-                        for (int j = 0; j < stagingTable.Columns.Count; j++)
-                        {
-                            if (customFieldIndex != -1 && j == customFieldIndex)
-                            {
-                                dr[j] = inputData[i][j].ToString().Remove(0, 3);
-                            }
-                            else
-                            {
-                                dr[j] = inputData[i][j];
-                            }
-                        }
-                        stagingTable.Rows.Add(dr);
-                    }
+                    stagingTable.Select(string.Format("[{0}] = '1' or 1=1", customSourceField)).ToList<DataRow>().ForEach(r => r[customSourceField] = ExtractionMethod(r[customSourceField].ToString()));
+                    return true;
                 }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
 
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
              return false;
         }
 
-         protected override List<string[]> getSampleData()
+        public Func<string, string> ExtractionMethod;
+        
+        protected override List<string[]> getSampleData()
         {
 
             Sampledata = new List<string[]>();
