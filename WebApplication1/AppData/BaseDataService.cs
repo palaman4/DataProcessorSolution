@@ -73,7 +73,7 @@ namespace WebApplication1.AppData
         public virtual bool ApplyMappingsToStaging(string dataMappings)
         {
             List<DataMapping> mappingsList = JsonConvert.DeserializeObject<List<DataMapping>>(dataMappings);
-           bool tes= stagingTable.Columns.Contains("Currency");
+          
            
             foreach (DataMapping dm in mappingsList) {
                
