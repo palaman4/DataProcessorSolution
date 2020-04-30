@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -73,7 +73,7 @@ namespace WebApplication1.AppData
         public virtual bool ApplyMappingsToStaging(string dataMappings)
         {
             List<DataMapping> mappingsList = JsonConvert.DeserializeObject<List<DataMapping>>(dataMappings);
-          
+           bool tes= stagingTable.Columns.Contains("Currency");
            
             foreach (DataMapping dm in mappingsList) {
                
@@ -87,7 +87,7 @@ namespace WebApplication1.AppData
 
             outputTable.Merge(inputTable);
 
-            outputTable.FeedTableToCsv("C:\\MyProjects_trial\\test.csv");
+            outputTable.FeedTableToCsv(_config.GetSection("CustomSetttings").GetSection("outputFileLocation").Value);
         }
 
 
